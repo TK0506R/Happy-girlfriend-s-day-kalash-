@@ -1,161 +1,518 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Girlfriends Day ❤️</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-font-family:Arial,sans-serif;
-background:linear-gradient(180deg,#090909,#1b1208);
-color:#fff;
-overflow-x:hidden;
-}
-header{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:30px;
-}
-h1{
-font-size:3rem;
-color:#ffd700;
-margin-bottom:15px;
-}
-p{
-max-width:700px;
-line-height:1.7;
-font-size:1.1rem;
-}
-.btn{
-display:inline-block;
-margin-top:30px;
-padding:14px 28px;
-border-radius:999px;
-background:#d4af37;
-color:#000;
-text-decoration:none;
-font-weight:bold;
-}
-.section{
-padding:70px 20px;
-max-width:1100px;
-margin:auto;
-}
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
-}
-.card{
-background:rgba(255,255,255,.06);
-border:1px solid rgba(255,255,255,.1);
-border-radius:18px;
-padding:10px;
-backdrop-filter:blur(8px);
-}
-.card img{
-width:100%;
-border-radius:12px;
-display:block;
-aspect-ratio:4/5;
-object-fit:cover;
-}
-.counter{
-font-size:2rem;
-color:#ffd700;
-margin-top:20px;
-}
-footer{
-text-align:center;
-padding:60px 20px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Girlfriends Day Kalash ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+
+        :root {
+            --gold: #D4AF37;
+            --dark-gold: #996515;
+            --black: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(212, 175, 55, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--black);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+        }
+
+        /* Cinematic Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        /* Background Effects */
+        #canvas-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s forwards 1s;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #888;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInUp 1.5s forwards 1.5s;
+        }
+
+        /* Live Counter */
+        .counter-container {
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .counter-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .counter-box {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            min-width: 150px;
+            transition: transform 0.3s ease;
+        }
+
+        .counter-box:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+        }
+
+        .counter-box span {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--gold);
+        }
+
+        /* Photo Gallery */
+        .gallery {
+            padding: 100px 5%;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .photo-card {
+            position: relative;
+            height: 450px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .photo-card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .photo-card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Love Letter Section */
+        .love-letter {
+            padding: 100px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .letter-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 60px 40px;
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #ddd;
+            position: relative;
+        }
+
+        .letter-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            font-size: 5rem;
+            color: var(--gold);
+            opacity: 0.3;
+            font-family: serif;
+        }
+
+        /* Timeline */
+        .timeline {
+            padding: 100px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-date {
+            min-width: 150px;
+            color: var(--gold);
+            font-weight: bold;
+            padding-top: 5px;
+        }
+
+        .timeline-content {
+            border-left: 2px solid var(--gold);
+            padding-left: 30px;
+            padding-bottom: 20px;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .luxury-btn {
+            padding: 18px 40px;
+            border-radius: 50px;
+            border: 1px solid var(--gold);
+            background: transparent;
+            color: var(--gold);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+        }
+
+        .luxury-btn:hover {
+            background: var(--gold);
+            color: black;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .surprise-btn {
+            background: linear-gradient(45deg, var(--gold), var(--dark-gold));
+            color: black;
+        }
+
+        /* Final Screen */
+        .final-screen {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .final-screen h2 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-style: italic;
+            max-width: 900px;
+            line-height: 1.4;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        .floating-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            animation: floatUp 4s linear forwards;
+        }
+
+        @keyframes floatUp {
+            to { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .counter-grid { gap: 10px; }
+            .counter-box { min-width: 120px; padding: 15px; }
+            .counter-box span { font-size: 1.5rem; }
+            .letter-card { padding: 40px 20px; }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-<h1>Happy Girlfriends Day, Kalash ❤️</h1>
-<p>
-Some people spend their whole life searching for someone special.
-I found mine on <b>20 August 2023</b> in a random online group.
-Distance may keep us apart, but it has never changed what you mean to me.
-</p>
+    <div id="loader">
+        <div class="loader-content">
+            <h2 style="letter-spacing: 5px;">KALASH</h2>
+            <p style="font-size: 0.8rem; margin-top: 10px;">PREPARING YOUR EXPERIENCE</p>
+        </div>
+    </div>
 
-<a class="btn" target="_blank"
-href="https://www.youtube.com/results?search_query=The+Stranglers+Golden+Brown">
-🎵 Play Our Song
-</a>
+    <canvas id="canvas-stars"></canvas>
 
-<div class="counter" id="counter"></div>
-</header>
+    <!-- Hero Section -->
+    <section class="hero">
+        <p>A Luxury Tribute To</p>
+        <h1>Kalash ❤️</h1>
+        <p>Happy Girlfriends Day</p>
+        <div style="margin-top: 40px;">
+            <a href="#gallery" class="luxury-btn">Enter Her World</a>
+        </div>
+    </section>
 
-<section class="section">
-<h2 style="margin-bottom:25px;color:#ffd700;">A Few Moments ❤️</h2>
+    <!-- Live Counter -->
+    <section class="counter-container">
+        <h2 style="margin-bottom: 20px;">Every Second Counts</h2>
+        <p style="color: #888;">Since that random online group brought us together</p>
+        <div class="counter-grid">
+            <div class="counter-box">
+                <span id="days">00</span>
+                <p>Days</p>
+            </div>
+            <div class="counter-box">
+                <span id="hours">00</span>
+                <p>Hours</p>
+            </div>
+            <div class="counter-box">
+                <span id="minutes">00</span>
+                <p>Minutes</p>
+            </div>
+            <div class="counter-box">
+                <span id="seconds">00</span>
+                <p>Seconds</p>
+            </div>
+        </div>
+    </section>
 
-<p style="margin-bottom:25px;">
-Replace the image names below with your uploaded photos in the same folder:
-photo1.jpg ... photo10.jpg
-</p>
+    <!-- Photo Gallery -->
+    <section class="gallery" id="gallery">
+        <h2 style="text-align: center; margin-bottom: 50px;">The Gallery of Grace</h2>
+        <div class="gallery-grid">
+            <div class="photo-card"><img src="input_file_0.png" alt="Kalash 1"></div>
+            <div class="photo-card"><img src="input_file_1.png" alt="Kalash 2"></div>
+            <div class="photo-card"><img src="input_file_2.png" alt="Kalash 3"></div>
+            <div class="photo-card"><img src="input_file_3.png" alt="Kalash 4"></div>
+            <div class="photo-card"><img src="input_file_4.png" alt="Kalash 5"></div>
+        </div>
+    </section>
 
-<div class="grid">
-<div class="card"><img src="photo1.jpg"></div>
-<div class="card"><img src="photo2.jpg"></div>
-<div class="card"><img src="photo3.jpg"></div>
-<div class="card"><img src="photo4.jpg"></div>
-<div class="card"><img src="photo5.jpg"></div>
-<div class="card"><img src="photo6.jpg"></div>
-<div class="card"><img src="photo7.jpg"></div>
-<div class="card"><img src="photo8.jpg"></div>
-<div class="card"><img src="photo9.jpg"></div>
-<div class="card"><img src="photo10.jpg"></div>
-</div>
-</section>
+    <!-- Timeline -->
+    <section class="timeline">
+        <h2 style="text-align: center; margin-bottom: 60px;">Our Journey</h2>
+        <div class="timeline-item">
+            <div class="timeline-date">20 AUG 2023</div>
+            <div class="timeline-content">
+                <h3>The Intersection</h3>
+                <p>In a random online group, paths crossed. A simple hello that changed the trajectory of everything. The day the magic started.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">TODAY</div>
+            <div class="timeline-content">
+                <h3>Still Choosing You</h3>
+                <p>Hundreds of days later, the spark has only grown into a flame. Celebrating you today and every day.</p>
+            </div>
+        </div>
+    </section>
 
-<section class="section">
-<h2 style="color:#ffd700;margin-bottom:20px;">A Letter For You 💌</h2>
+    <!-- Love Letter -->
+    <section class="love-letter">
+        <div class="letter-card">
+            <p>
+                To my dearest Kalash,<br><br>
+                When we met in that random group back in August, I had no idea my life was about to get so much brighter. You aren't just my girlfriend; you're my sanctuary and my favorite person to talk to. Your strength, your beauty, and the way you carry yourself inspire me every single day. <br><br>
+                Thank you for being the most incredible part of my journey. You deserve the world, and today, I just wanted to give you a small piece of mine.
+            </p>
+            
+            <div class="btn-group">
+                <a href="https://www.youtube.com/results?search_query=The+Stranglers+-+Golden+Brown" target="_blank" class="luxury-btn">Play Our Song 🎵</a>
+                <button onclick="explodeHearts()" class="luxury-btn surprise-btn">The Surprise Button ✨</button>
+            </div>
+        </div>
+    </section>
 
-<p>
-Kalash,
-thank you for walking into my life unexpectedly.
-No matter how many kilometres separate us,
-I never stop being grateful that our paths crossed.
-If I had the chance to choose again,
-I'd still choose you.
-Again.
-And again.
-Forever.
-❤️
-</p>
-</section>
+    <!-- Final Message -->
+    <section class="final-screen">
+        <h2>"No matter how many miles are between us, <br><span style="color:var(--gold)">I'd always choose you.</span>"</h2>
+    </section>
 
-<footer>
-<h2>Forever & Always ❤️</h2>
-<p style="margin-top:15px;">
-Made with love.
-</p>
-</footer>
+    <script>
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 1000);
+            }, 2000);
+        });
 
-<script>
-const start=new Date("2023-08-20T00:00:00");
-function update(){
-const now=new Date();
-let diff=now-start;
-const days=Math.floor(diff/86400000);
-diff%=86400000;
-const hrs=Math.floor(diff/3600000);
-diff%=3600000;
-const mins=Math.floor(diff/60000);
-document.getElementById("counter").innerHTML=
-days+" Days • "+hrs+" Hours • "+mins+" Minutes Together";
-}
-update();
-setInterval(update,60000);
-</script>
+        // Stars Background
+        const canvas = document.getElementById('canvas-stars');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
 
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speed = Math.random() * 0.5;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(212, 175, 55, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            update() {
+                this.y -= this.speed;
+                if (this.y < 0) this.y = canvas.height;
+            }
+        }
+
+        for (let i = 0; i < 150; i++) stars.push(new Star());
+
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                star.draw();
+                star.update();
+            });
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
+
+        // Live Counter logic
+        const startDate = new Date("August 20, 2023 00:00:00").getTime();
+
+        function updateCounter() {
+            const now = new Date().getTime();
+            const diff = now - startDate;
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = d.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = h.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = m.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = s.toString().padStart(2, '0');
+        }
+        setInterval(updateCounter, 1000);
+
+        // Intersection Observer for scroll animations
+        const observerOptions = { threshold: 0.2 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.photo-card, .timeline-item').forEach(el => observer.observe(el));
+
+        // Surprise Heart Explosion
+        function explodeHearts() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.innerHTML = '❤️';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = '100vh';
+                    heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                    heart.style.filter = `hue-rotate(${Math.random() * 50}deg)`;
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 4000);
+                }, i * 100);
+            }
+        }
+    </script>
 </body>
 </html>
